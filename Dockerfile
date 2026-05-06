@@ -20,8 +20,8 @@ RUN php artisan config:cache
 RUN php artisan route:cache
 RUN php artisan view:cache
 
-# Handle OPTIONS preflight requests for CORS
-RUN echo 'location /api/ { if ($request_method = "OPTIONS") { add_header "Access-Control-Allow-Origin" "https://upsa-key-frontend.onrender.com" always; add_header "Access-Control-Allow-Methods" "GET, POST, PUT, DELETE, OPTIONS" always; add_header "Access-Control-Allow-Credentials" "true" always; add_header "Access-Control-Allow-Headers" "Authorization, Content-Type" always; return 204; } try_files $uri $uri/ /index.php?$query_string; }' > /etc/nginx/conf.d/99-options-handler.conf
+# Copy custom Nginx configuration for CORS preflight requests
+COPY 99-options-handler.conf /etc/nginx/conf.d/
 
 EXPOSE 8080
 CMD ["/start.sh"]
