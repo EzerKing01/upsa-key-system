@@ -1,5 +1,14 @@
 <?php
 
+// Handle CORS preflight requests for all API endpoints
+Route::options('/{any}', function () {
+    return response('', 200)
+        ->header('Access-Control-Allow-Origin', env('CORS_ALLOWED_ORIGINS', 'https://upsa-key-frontend.onrender.com'))
+        ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+        ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
+        ->header('Access-Control-Allow-Credentials', 'true');
+})->where('any', '.*');
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KeyLogController;
 use App\Http\Controllers\AdminController;
