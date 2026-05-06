@@ -1,4 +1,8 @@
 <?php
+// TEMPORARY TEST ROUTE – remove after confirming
+Route::get('/test', function () {
+    return 'API test works';
+});
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KeyLogController;
@@ -7,9 +11,7 @@ use App\Http\Controllers\KeyListController;
 use App\Http\Controllers\KeyController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/test', function () {
-    return 'API test works';
-});
+
 /*
 |--------------------------------------------------------------------------
 | API Routes

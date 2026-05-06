@@ -16,9 +16,9 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN composer install --no-dev --no-interaction --optimize-autoloader
 RUN chmod -R 777 storage bootstrap/cache
-RUN php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
+
+# Override default nginx configuration
+COPY default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 8080
 CMD ["/start.sh"]
