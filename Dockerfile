@@ -20,8 +20,8 @@ RUN php artisan config:cache
 RUN php artisan route:cache
 RUN php artisan view:cache
 
-# Copy custom Nginx configuration for CORS preflight requests
-COPY 99-options-handler.conf /etc/nginx/conf.d/
+# (REMOVE the COPY 99-options-handler.conf line)
+# The default nginx configuration will be used
 
 EXPOSE 8080
 CMD ["/start.sh"]
