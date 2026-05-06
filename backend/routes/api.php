@@ -7,13 +7,29 @@ use App\Http\Controllers\KeyListController;
 use App\Http\Controllers\KeyController;
 use Illuminate\Support\Facades\Route;
 
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+*/
+
+// Public routes
 Route::post('/login', [AuthController::class, 'login']);
 
+// Temporary route to clear config cache (remove after use)
+Route::get('/clear-config', function() {
+    \Artisan::call('config:clear');
+    \Artisan::call('cache:clear');
+    \Artisan::call('route:clear');
+    return 'Configuration cache cleared.';
+});
+
+// Authenticated routes (Sanctum)
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
 
-    // Keys (read)
+    // Keys (read for all authenticated users)
     Route::get('/keys', [KeyListController::class, 'index']);
     Route::get('/keys/{id}/logs', [KeyListController::class, 'logs']);
 
@@ -27,13 +43,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/key-logs/export-pdf/{date}', [KeyLogController::class, 'exportPdf']);
 });
 
+// Admin only routes
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
-    Route::get('/keys-admin', [KeyController::class, 'index']);      // admin view
+    // Key management (admin CRUD)
+    Route::get('/keys-admin', [KeyController::class, 'index']);
     Route::post('/keys', [KeyController::class, 'store']);
     Route::put('/keys/{id}', [KeyController::class, 'update']);
     Route::delete('/keys/{id}', [KeyController::class, 'destroy']);
     Route::post('/keys/bulk', [KeyController::class, 'bulkStore']);
 
+    // User management
     Route::get('/users', [AdminController::class, 'index']);
     Route::post('/users', [AdminController::class, 'store']);
 });

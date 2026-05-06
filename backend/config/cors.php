@@ -1,6 +1,11 @@
 <?php
 
 return [
+    /*
+    |--------------------------------------------------------------------------
+    | Cross-Origin Resource Sharing (CORS) Configuration
+    |--------------------------------------------------------------------------
+    */
     'paths' => ['api/*', 'sanctum/csrf-cookie', 'login', 'logout', 'user'],
     'allowed_methods' => ['*'],
     'allowed_origins' => [

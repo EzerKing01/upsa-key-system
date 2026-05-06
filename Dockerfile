@@ -1,6 +1,9 @@
 FROM richarvey/nginx-php-fpm:3.1.6
+
+# Copy Laravel files from the backend subdirectory
 COPY backend/ /var/www/html/
 WORKDIR /var/www/html
+
 ENV SKIP_COMPOSER 0
 ENV WEBROOT /var/www/html/public
 ENV PHP_ERRORS_STDERR 1
@@ -10,10 +13,15 @@ ENV APP_ENV production
 ENV APP_DEBUG false
 ENV LOG_CHANNEL stderr
 ENV COMPOSER_ALLOW_SUPERUSER 1
+
 RUN composer install --no-dev --no-interaction --optimize-autoloader
 RUN chmod -R 777 storage bootstrap/cache
 RUN php artisan config:cache
 RUN php artisan route:cache
 RUN php artisan view:cache
+
+# Handle OPTIONS preflight requests for CORS
+RUN echo 'location /api/ { if ($request_method = "OPTIONS") { add_header "Access-Control-Allow-Origin" "https://upsa-key-frontend.onrender.com" always; add_header "Access-Control-Allow-Methods" "GET, POST, PUT, DELETE, OPTIONS" always; add_header "Access-Control-Allow-Credentials" "true" always; add_header "Access-Control-Allow-Headers" "Authorization, Content-Type" always; return 204; } try_files $uri $uri/ /index.php?$query_string; }' > /etc/nginx/conf.d/99-options-handler.conf
+
 EXPOSE 8080
 CMD ["/start.sh"]
