@@ -20,8 +20,8 @@ RUN php artisan config:cache
 RUN php artisan route:cache
 RUN php artisan view:cache
 
-# (REMOVE the COPY 99-options-handler.conf line)
-# The default nginx configuration will be used
+# Add custom nginx config to handle OPTIONS requests directly
+RUN echo 'location /api/ { if ($request_method = OPTIONS) { add_header "Access-Control-Allow-Origin" "https://upsa-key-frontend.onrender.com" always; add_header "Access-Control-Allow-Methods" "GET, POST, PUT, DELETE, OPTIONS" always; add_header "Access-Control-Allow-Credentials" "true" always; add_header "Access-Control-Allow-Headers" "Authorization, Content-Type, X-Requested-With" always; return 204; } try_files $uri $uri/ /index.php?$query_string; }' > /etc/nginx/conf.d/99-options-handler.conf
 
 EXPOSE 8080
 CMD ["/start.sh"]

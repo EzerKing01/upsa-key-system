@@ -1,6 +1,6 @@
 <?php
 
-// Handle CORS preflight requests for all API endpoints
+// Handle preflight OPTIONS requests for all API paths
 Route::options('/{any}', function () {
     return response('', 200)
         ->header('Access-Control-Allow-Origin', env('CORS_ALLOWED_ORIGINS', 'https://upsa-key-frontend.onrender.com'))
