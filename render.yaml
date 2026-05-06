@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: upsa-key-backend
+    env: php
+    rootDir: backend
+    buildCommand: "composer install --no-dev --optimize-autoloader"
+    startCommand: "php artisan serve --host=0.0.0.0 --port=10000"
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        value: base64:U+OPrNEZ+jtFmgkgwXx9Qw3uhrbBcC7mRHI4hrdR8P8=
+      - key: APP_URL
+        value: https://upsa-key-backend.onrender.com
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: dpg-d7ti9ejrjlhs73auer6g-a
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        value: upsa_key_db
+      - key: DB_USERNAME
+        value: upsa_key_db_user
+      - key: DB_PASSWORD
+        value: UUuW60JcGThPVntG8t4rLPU8dudjjvCA
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: SESSION_DOMAIN
+        value: .onrender.com
+      - key: CORS_ALLOW_ORIGIN
+        value: https://upsa-key-frontend.onrender.com
+      - key: CORS_ALLOW_METHODS
+        value: GET, POST, PUT, DELETE, OPTIONS
+      - key: CORS_ALLOW_HEADERS
+        value: Content-Type, Authorization, X-Requested-With
+      - key: CORS_ALLOW_CREDENTIALS
+        value: "true"
