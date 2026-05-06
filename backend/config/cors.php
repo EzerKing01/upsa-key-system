@@ -4,7 +4,7 @@ return [
     'paths' => ['api/*', 'sanctum/csrf-cookie', 'login', 'logout', 'user'],
     'allowed_methods' => ['*'],
     'allowed_origins' => [
-        env('CORS_ALLOWED_ORIGINS', 'http://localhost:5173')
+        env('CORS_ALLOWED_ORIGINS', 'https://upsa-key-frontend.onrender.com'),
     ],
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'],
