@@ -1,14 +1,5 @@
 <?php
 
-// Handle preflight OPTIONS requests for all API paths
-Route::options('/{any}', function () {
-    return response('', 200)
-        ->header('Access-Control-Allow-Origin', env('CORS_ALLOWED_ORIGINS', 'https://upsa-key-frontend.onrender.com'))
-        ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-        ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
-        ->header('Access-Control-Allow-Credentials', 'true');
-})->where('any', '.*');
-
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KeyLogController;
 use App\Http\Controllers\AdminController;
@@ -25,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
 
-// Temporary route to clear config cache (remove after use)
+// Temporary route to clear cache (optional – remove after use)
 Route::get('/clear-config', function() {
     \Artisan::call('config:clear');
     \Artisan::call('cache:clear');
