@@ -1,0 +1,45 @@
+<?php
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\KeyLogController;
+use App\Http\Controllers\AdminController;
+use Illuminate\Support\Facades\Route;
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/keys', [App\Http\Controllers\KeyListController::class, 'index']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/user', [AuthController::class, 'user']);
+    Route::apiResource('key-logs', KeyLogController::class)->except(['show','destroy']);
+    Route::get('/key-logs/overdue', [KeyLogController::class, 'overdue']);
+    Route::get('/key-logs/today', [KeyLogController::class, 'todayStats']);
+    Route::get('/key-logs/shift-handover', [KeyLogController::class, 'shiftHandover']);
+    Route::get('/key-logs/daily-logs', [KeyLogController::class, 'dailyLogs']);
+    Route::get('/key-logs/export-pdf/{date}', [KeyLogController::class, 'exportPdf']);
+    Route::middleware('role:admin')->group(function () {
+        Route::get('/users', [AdminController::class, 'index']);
+        Route::post('/users', [AdminController::class, 'store']);
+    });
+});
+
+    // Admin key management
+    Route::middleware('role:admin')->group(function () {
+        Route::post('/keys', [App\Http\Controllers\KeyController::class, 'store']);
+        Route::put('/keys/{id}', [App\Http\Controllers\KeyController::class, 'update']);
+        Route::delete('/keys/{id}', [App\Http\Controllers\KeyController::class, 'destroy']);
+        Route::post('/keys/bulk', [App\Http\Controllers\KeyController::class, 'bulkStore']);
+    });
+
+    // Admin key management
+    Route::middleware('role:admin')->group(function () {
+        Route::post('/keys', [App\Http\Controllers\KeyController::class, 'store']);
+        Route::put('/keys/{id}', [App\Http\Controllers\KeyController::class, 'update']);
+        Route::delete('/keys/{id}', [App\Http\Controllers\KeyController::class, 'destroy']);
+        Route::post('/keys/bulk', [App\Http\Controllers\KeyController::class, 'bulkStore']);
+    });
+
+    // Admin key management
+    Route::middleware('role:admin')->group(function () {
+        Route::post('/keys', [App\Http\Controllers\KeyController::class, 'store']);
+        Route::put('/keys/{id}', [App\Http\Controllers\KeyController::class, 'update']);
+        Route::delete('/keys/{id}', [App\Http\Controllers\KeyController::class, 'destroy']);
+        Route::post('/keys/bulk', [App\Http\Controllers\KeyController::class, 'bulkStore']);
+    });
